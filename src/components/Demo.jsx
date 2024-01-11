@@ -14,6 +14,9 @@ const Demo = () => {
 		summary: "",
 	});
 
+	// State for articles history
+	const [allArticles, setAllArticles] = useState([]);
+
 	const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
 	// Helper functions
@@ -25,12 +28,31 @@ const Demo = () => {
 		const { data } = await getSummary({ articleUrl: article.url });
 
 		if (data?.summary) {
+			// Create the new article object
 			const newArticle = { ...article, summary: data.summary };
-			setArticle(newArticle);
 
-			console.log(newArticle);
+			// Add the new article to history
+			const updatedAllArticles = [newArticle, ...allArticles];
+
+			// Set the new article and updated articles to history
+			setArticle(newArticle);
+			setAllArticles(updatedAllArticles);
+
+			// Update the articles history to local storage
+			localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
 		}
 	};
+
+	// Effects
+
+	// Effect to handle local storage for history of articles
+	useEffect(() => {
+		const articlesFromLocalStorage = JSON.parse(
+			localStorage.getItem("articles")
+		);
+
+		if (articlesFromLocalStorage) setAllArticles(articlesFromLocalStorage);
+	}, []);
 
 	return (
 		<section className="mt-16 w-full max-w-xl">
@@ -62,6 +84,26 @@ const Demo = () => {
 				</form>
 
 				{/* Browse URL History */}
+				<div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
+					{allArticles.map((article, index) => (
+						<div
+							key={`link-${index}`}
+							onClick={() => setArticle(article)}
+							className="link_card"
+						>
+							<div className="copy_btn">
+								<img
+									src={copy}
+									alt="copy_icon"
+									className="w-[40%] h-[40%] object-contain"
+								/>
+							</div>
+							<p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
+								{article.url}
+							</p>
+						</div>
+					))}
+				</div>
 			</div>
 
 			{/* Display Results */}
