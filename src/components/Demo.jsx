@@ -1,6 +1,9 @@
 // React imports
 import { useState, useEffect } from "react";
 
+// Redux hook import
+import { useLazyGetSummaryQuery } from "../services/article";
+
 // Assets imports
 import { copy, linkIcon, loader, tick } from "../assets";
 
@@ -11,12 +14,22 @@ const Demo = () => {
 		summary: "",
 	});
 
+	const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+
 	// Helper functions
 
 	// Function to handle the submit of the form
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		alert("Submited!");
+
+		const { data } = await getSummary({ articleUrl: article.url });
+
+		if (data?.summary) {
+			const newArticle = { ...article, summary: data.summary };
+			setArticle(newArticle);
+
+			console.log(newArticle);
+		}
 	};
 
 	return (
