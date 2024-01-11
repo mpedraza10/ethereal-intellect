@@ -17,6 +17,10 @@ const Demo = () => {
 	// State for articles history
 	const [allArticles, setAllArticles] = useState([]);
 
+	// State for the copy
+	const [copied, setCopied] = useState("");
+
+	// Hook to fetch the summary of a given url
 	const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
 
 	// Helper functions
@@ -41,6 +45,13 @@ const Demo = () => {
 			// Update the articles history to local storage
 			localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
 		}
+	};
+
+	// Function to handle the copy to clipboard event
+	const handleCopy = (copyUrl) => {
+		setCopied(copyUrl);
+		navigator.clipboard.writeText(copyUrl);
+		setTimeout(() => setCopied(false), 3000);
 	};
 
 	// Effects
@@ -91,9 +102,9 @@ const Demo = () => {
 							onClick={() => setArticle(article)}
 							className="link_card"
 						>
-							<div className="copy_btn">
+							<div className="copy_btn" onClick={() => handleCopy(article.url)}>
 								<img
-									src={copy}
+									src={copied === article.url ? tick : copy}
 									alt="copy_icon"
 									className="w-[40%] h-[40%] object-contain"
 								/>
@@ -112,7 +123,7 @@ const Demo = () => {
 					<img src={loader} alt="loader" className="w-20 h-20 object-contain" />
 				) : error ? (
 					<p className="font-inter font-bold text-black text-center">
-						Well, that wasn't suppose to hapen... <br />
+						Well, that wasn&#39;t suppose to hapen... <br />
 						<span className="font-satoshi font-normal text-gray-700">
 							{error?.data?.error}
 						</span>
