@@ -8,7 +8,7 @@ const Hero = () => {
 				<img
 					src={logo}
 					alt="Ethereal Intellect Logo"
-					className="w-28 object-contain"
+					className="w-20 object-contain"
 				/>
 				<button
 					type="button"
