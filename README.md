@@ -1,8 +1,10 @@
-# React + Vite
+# Ethereal Intellect
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an all-in-on website featuring different AI tools for any task the user may need to solve. For this project I took inspiration from [JS Mastery](https://www.youtube.com/watch?v=vpvtZZi5ZWk&ab_channel=JavaScriptMastery) and want to work to implement more AI tools solutions to create the desired website. I've used React with Redux and the RapidAPI
 
-Currently, two official plugins are available:
+Technologies and libraries used:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React with Vite
+- Tailwind
+- Redux
+- RapidAPI
